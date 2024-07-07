@@ -16,11 +16,12 @@ law_outlawed_dissent = {
 
 	institution = institution_culture
 	institution_modifier = {
-		country_authority_add = 50
-		country_bolster_ig_attraction_mult = 0.15
-		country_suppression_ig_attraction_mult = -0.15
-		country_tech_spread_mult = -0.05
-		bpm_decorative_modify_rigidity = 5
+		country_authority_add = 200
+		 country_bolster_ig_attraction_mult = 0.5
+		country_suppression_ig_attraction_mult = -0.5
+		country_tech_spread_mult = -0.15
+		country_leverage_resistance_mult = 0.5
+		bpm_decorative_modify_rigidity = 25
 	}
 	
 	possible_political_movements = {
@@ -63,6 +64,12 @@ law_censorship = {
 		country_bolster_ig_attraction_mult = 0.1
 		country_suppression_ig_attraction_mult = -0.1
 		country_tech_spread_mult = -0.04
+		country_authority_add = 100
+		country_bolster_ig_attraction_mult = 0.4
+		country_suppression_ig_attraction_mult = -0.4
+		country_tech_spread_mult = -0.10
+		country_leverage_resistance_mult = 0.25
+		bpm_decorative_modify_rigidity = 10
 	}
 	
 	possible_political_movements = {
@@ -145,6 +152,9 @@ law_right_of_assembly = {
 	}
 	
 	modifier = {
+		country_authority_add = 50
+		country_bolster_ig_attraction_mult = 0.3
+		country_suppression_ig_attraction_mult = -0.3
 		state_pop_pol_str_add = 1
 		country_institution_culture_max_investment_add = 3
 	}
