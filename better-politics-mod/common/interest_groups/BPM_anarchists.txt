@@ -60,7 +60,7 @@
 			add = {
 				desc = "POP_EDUCATED_PROLETARIAT"
 				value = literacy_rate
-				multiply = 80
+				multiply = 100
 			}
 		}
 		else_if = {
@@ -90,7 +90,7 @@
 			}
 			add = {
 				desc = "POP_LEADERS"
-				value = 40
+				value = 60
 			}
 		}
 		else_if = {
@@ -116,7 +116,7 @@
 				limit = { is_employed = no }
 				add = {
 					desc = "URBAN_UNEMPLOYED"
-					value = 50
+					value = 100
 				}
 			}
 		}
@@ -142,7 +142,7 @@
 				limit = { 
 					pop_is_discriminated = yes
 				}
-				value = 50
+				value = 60
 			}
 		}	
 		
@@ -209,7 +209,7 @@
 						is_at_war = yes
 					}
 				}
-				value = 1.3
+				value = 1.7
 			}		
 		}	
 		owner = {
