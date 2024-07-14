@@ -1,0 +1,182 @@
+# Scope: Country
+bpm_ideological_proximity = {
+
+
+    # Pseudo code
+    # function ideological_proximity(ig1, ig2) {
+    #   sum = 0
+    #   for each law {
+    #      sum += (4 - (ig1.law_support(law) - ig2.law_support(law)))^2
+    #   }
+    #   return square_root(sum)
+    # }
+    #
+    # ig1 -> scope bpm_ideoprox_ig_1
+    # ig2 -> scope bpm_ideoprox_ig_2
+    # sum -> variable bpm_ideoprox_squared
+
+    
+    value = 0
+
+    set_variable = {
+        name = bpm_ideoprox_squared
+        value = 0
+    }
+
+    every_law = {
+        save_scope_as = bpm_ideoprox_check_law
+        # Step 1: (4 - (ig1 - ig2))^2
+        set_variable = {
+            name = bpm_temp_ideoprox_calc
+            value = 4
+            subtract = scope:bpm_ideoprox_ig_1.bpm_numerical_law_support
+            add = scope:bpm_ideoprox_ig_2.bpm_numerical_law_support
+        }
+        change_variable = {
+            name = bpm_temp_ideoprox_calc
+            multiply = var:bpm_temp_sub_ideoprox_calc
+        }
+        change_variable = {
+            name = bpm_ideoprox_squared
+            add = var:bpm_temp_ideoprox_calc
+        }
+    }
+
+    save_scope_value_as = { name = bpm_square_root_func_input value = var:bpm_ideoprox_squared }
+
+    remove_variable = bpm_temp_ideoprox_calc
+    remove_variable = bpm_ideoprox_squared
+    
+    add = bpm_square_root
+
+}
+
+# Scope: Country
+bpm_square_root = {
+
+
+    # Pseudo code
+    # function square_root(input) {
+    #   guess = input / 2
+    #   while (let i = 0; i < 5; i++) { 
+    #       guess = (guess + input / guess) / 2
+    #   }
+    #   return guess
+    # }
+    #
+    # i -> variable bpm_square_root_func_tries
+    # guess -> variable bpm_square_root_func_guess
+    # input -> scope bpm_square_root_func_input
+
+
+    value = 0
+
+    # Initial guess is just half of the input
+
+    set_variable = {
+        name = bpm_square_root_func_guess
+        value = scope:bpm_square_root_func_input
+        divide = 2
+    }
+
+    # i = 0
+
+    set_variable = {
+        name = bpm_square_root_func_tries
+        value = 0
+    }
+
+    # While i < 5
+    while = {
+        limit = {
+            var:bpm_square_root_func_tries < 5
+        }
+        # We use Heron's method to calculate the square root
+        # If G is our Guess and X is the input, then the next guess is (G + X/G) / 2
+
+        # Calculate X/G
+        set_variable = {
+            name = bpm_square_root_func_temp_value
+            value = scope:bpm_square_root_func_input
+            divide = var:bpm_square_root_func_guess
+        }
+        # Calculate (G + X/G) / 2
+        change_variable = {
+            name = bpm_square_root_func_guess
+            add = var:bpm_square_root_func_temp_value
+            divide = 2
+        }
+
+        # Increment the number of tries
+        # i += 1
+        change_variable = {
+            name = bpm_square_root_func_tries
+            add = 1
+        }
+    }
+    remove_variable = bpm_square_root_func_tries
+    remove_variable = bpm_square_root_func_guess
+    remove_variable = bpm_square_root_func_temp_value
+
+    add = var:bpm_square_root_func_guess
+}
+
+# Scope: IG
+bpm_numerical_law_support = {
+
+
+    # Pseudo code
+    # function law_support(law) {
+    #   if (law.stance == strongly_approve) {
+    #       return 2
+    #   } else if (law.stance == approve) {
+    #       return 1
+    #   } else if (law.stance == disapprove) {
+    #       return -1
+    #   } else if (law.stance == strongly_disapprove) {
+    #       return -2
+    #   } else {
+    #       return 0
+    #   }
+
+
+    value = 0
+
+    if = {
+        limit = {
+            law_stance = {
+                law = scope:bpm_ideoprox_check_law
+                value = strongly_approve
+            }
+            add = 2
+        }
+    }
+    else_if = {
+        limit = {
+            law_stance = {
+                law = scope:bpm_ideoprox_check_law
+                value = approve
+            }
+            add = 1
+        }
+    }
+    else_if = {
+        limit = {
+            law_stance = {
+                law = scope:bpm_ideoprox_check_law
+                value = disapprove
+            }
+            add = -1
+        }
+    }
+    else_if = {
+        limit = {
+            law_stance = {
+                law = scope:bpm_ideoprox_check_law
+                value = strongly_disapprove
+            }
+            add = -2
+        }
+    }
+}
+
