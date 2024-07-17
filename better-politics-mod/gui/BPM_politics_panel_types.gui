@@ -512,8 +512,8 @@
 									minimumsize = { 40 0 }
 									layoutpolicy_horizontal = growing
 									align = nobaseline
-									tooltip = "bpm_political_stability_tooltip"
-									raw_text = "[InterestGroup.MakeScope.ScriptValue('bpm_ig_law_support_total_value')|d1]%"
+									tooltip = "bpm_law_support_tt"
+									raw_text = "[InterestGroup.MakeScope.ScriptValue('bpm_law_enactment_ig_yea_votes')|%1]"
 								}
 								icon = {
 									visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.ScriptValue('bpm_ig_law_support_total_value'), '(CFixedPoint)0')]"

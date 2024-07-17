@@ -78,7 +78,7 @@
  bpm_ig_law_support_from_petition:0 "From #yellow Petition#! for desired [concept_law]"
  bpm_ig_law_support_from_insurrection_threat:0 "From Threatening [Concept('concept_revolution', 'Revolution')]"
  bpm_law_enactment_approval_from_events_desc:0 "From Events"
- bpm_law_support:0 "Law Vote"
+ bpm_law_support:0 "Law Vote:"
  bpm_law_support_label:0 "#v $bpm_law_support$#!"
  bpm_law_enactment_success_vote_contribution:0 "From Projected Law Vote"
 
@@ -204,3 +204,6 @@
  bpm_ig_decrease_law_enactment_approval_small_tt:0 "[SCOPE.gsInterestGroup('bpm_ig_law_approval_scope').GetName] gets #N -5#! [Concept('concept_bpm_law_sway', 'Enacting Law Support')]"
  bpm_ig_decrease_law_enactment_approval_medium_tt:0 "[SCOPE.gsInterestGroup('bpm_ig_law_approval_scope').GetName] gets #N -10#! [Concept('concept_bpm_law_sway', 'Enacting Law Support')]"
  bpm_ig_decrease_law_enactment_approval_big_tt:0 "[SCOPE.gsInterestGroup('bpm_ig_law_approval_scope').GetName] gets #N -15#! [Concept('concept_bpm_law_sway', 'Enacting Law Support')]"
+
+
+ bpm_law_support_tt:0 "#header Law Support#!: [InterestGroup.MakeScope.ScriptValue('bpm_law_enactment_ig_yea_votes')|%1]\nYea votes from [InterestGroup.MakeScope.ScriptValue('bpm_ig_law_support_total_value')|v0] law approval: [InterestGroup.MakeScope.ScriptValue('bpm_law_enactment_ig_yea_votes_weighted')|%1]\nNay votes from [InterestGroup.MakeScope.ScriptValue('bpm_ig_law_support_total_value')|v0] law approval: [InterestGroup.MakeScope.ScriptValue('bpm_law_enactment_ig_nay_votes_weighted')|%1]"

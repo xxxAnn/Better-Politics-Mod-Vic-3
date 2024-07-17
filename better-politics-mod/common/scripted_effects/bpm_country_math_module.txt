@@ -1,0 +1,211 @@
+# Input: bpm_math_module_factorial_input
+# Output: bpm_math_module_factorial_return
+
+bpm_math_module_factorial = {
+    set_variable = {
+        name = bpm_math_module_factorial_return
+        value = 1
+    }
+    while = {
+        limit = {
+            has_variable = bpm_math_module_factorial_input
+            var:bpm_math_module_factorial_input > 1
+        }
+        change_variable = {
+            name = bpm_math_module_factorial_return
+            multiply = var:bpm_math_module_factorial_input
+        }
+        change_variable = {
+            name = bpm_math_module_factorial_input
+            subtract = 1
+        }
+    }
+}
+
+# Input: bpm_math_module_exponent_input_base, bpm_math_module_exponent_input_power
+# Output: bpm_math_module_exponent_return
+
+bpm_math_module_exponent = {
+    set_variable = {
+        name = bpm_math_module_exponent_return
+        value = 1
+    }
+    while = {
+        limit = {
+            has_variable = bpm_math_module_exponent_input_power
+            has_variable = bpm_math_module_exponent_inputer_base
+            var:bpm_math_module_exponent_input_power > 0
+        }
+        change_variable = {
+            name = bpm_math_module_exponent_return
+            multiply = var:bpm_math_module_exponent_input_base
+        }
+        change_variable = {
+            name = bpm_math_module_exponent_input_power
+            subtract = 1
+        }
+    }
+}
+
+# Input: bpm_math_module_atpfunc_input
+# Output: bpm_math_module_atpfunc_return
+
+# Temporary variables:
+# - bpm_math_module_atpfunc_temp_0
+# - bpm_math_module_atpfunc_temp_1
+# - bpm_math_module_atpfunc_temp_2
+# - bpm_math_module_atpfunc_temp_sum
+# - bpm_math_module_atpfunc_sign_switched
+
+
+bpm_math_module_approval_to_percentage = {
+
+    # we can approximate the function 1/(1+e^(-x/25)) with a polynomial of degree 2
+    # this polynomial is 1 - 0.04x + 0.0008x^2
+
+    if = {
+        limit = {
+            var:bpm_math_module_atpfunc_input > 0
+        }
+        set_variable = bpm_math_module_atpfunc_sign_switched
+        change_variable = {
+            name = bpm_math_module_atpfunc_input
+            multiply = -1
+        }
+    }
+
+    if = {
+        limit = {
+            var:bpm_math_module_atpfunc_input = 0
+        }    
+        set_variable = {
+            name = bpm_math_module_atpfunc_return
+            value = 0.5
+        }
+    }
+
+    else = {
+    
+
+        # n = 0
+        set_variable = {
+            name = bpm_math_module_atpfunc_temp_0
+            value = 2
+        }
+
+        # n = 1
+
+        # temp_1 = x
+        set_variable = {
+            name = bpm_math_module_atpfunc_temp_1
+            value = bpm_math_module_atpfunc_input
+        }
+        # temp_1 = -0.04 * x = -x/25
+        change_variable = {
+            name = bpm_math_module_atpfunc_temp_1
+            multiply = -0.04
+        }
+
+        # n = 2
+
+        # temp_2 = x^2
+        set_variable = {
+            name = bpm_math_module_atpfunc_temp_2
+            value = bpm_math_module_atpfunc_input
+        }
+        change_variable = {
+            name = bpm_math_module_atpfunc_temp_2
+            multiply = bpm_math_module_atpfunc_input
+            multiply = 0.0008
+        }
+
+        # sum
+
+        set_variable = {
+            name = bpm_math_module_atpfunc_temp_sum
+            value = 0
+        }
+        change_variable = {
+            name = bpm_math_module_atpfunc_temp_sum
+            add = var:bpm_math_module_atpfunc_temp_0
+            add = var:bpm_math_module_atpfunc_temp_1
+            add = var:bpm_math_module_atpfunc_temp_2
+        }
+
+        set_variable = {
+            name = bpm_math_module_atpfunc_return
+            value = 1
+        }
+        change_variable = {
+            name = bpm_math_module_atpfunc_return
+            divide = var:bpm_math_module_atpfunc_temp_sum
+        }
+
+        if = {
+            limit = {
+                has_variable = bpm_math_module_atpfunc_sign_switched
+            }
+            change_variable = {
+                name = bpm_math_module_atpfunc_return
+                multiply = -1
+                add = 1
+            }
+        }
+
+    }
+}
+
+bpm_law_enactment_get_yea_votes = {
+	set_variable = { name = bpm_law_enactment_yea_votes_return value = 0 }
+	if = {
+		limit = { is_player = yes }
+		every_interest_group = {
+			limit = {
+				is_marginal = no
+			}
+            set_variable = {
+                name = bpm_law_enactment_yea_votes_temp
+                value = ig_clout
+            }
+			set_variable = {
+                name = bpm_math_module_atpfunc_input
+                value = bpm_ig_law_support_total_value
+            }
+            bpm_math_module_approval_to_percentage = yes
+            change_variable = {
+                name = bpm_law_enactment_yea_votes_temp
+                multiply = bpm_math_module_atpfunc_return
+            }
+            change_variable = {
+                name = bpm_law_enactment_yea_votes_return
+                add = bpm_law_enactment_yea_votes_temp
+            }
+            bpm_math_module_clear = yes
+            remove_variable = bpm_law_enactment_yea_votes_temp
+		}
+        change_variable = {
+            name = bpm_law_enactment_yea_votes_return
+            divide = bpm_law_enactment_non_marginal_votes
+        }
+	}
+}
+
+bpm_math_module_clear = {
+    # factorial
+    remove_variable = bpm_math_module_factorial_input
+    remove_variable = bpm_math_module_factorial_return
+
+    # exponent
+    remove_variable = bpm_math_module_exponent_input_base
+    remove_variable = bpm_math_module_exponent_input_power
+    remove_variable = bpm_math_module_exponent_return
+
+    # approval to percentage
+    remove_variable = bpm_math_module_atpfunc_input
+    remove_variable = bpm_math_module_atpfunc_return
+    remove_variable = bpm_math_module_atpfunc_temp_0
+    remove_variable = bpm_math_module_atpfunc_temp_1
+    remove_variable = bpm_math_module_atpfunc_temp_2
+    remove_variable = bpm_math_module_atpfunc_temp_sum
+    remove_variable = bpm_math_module_atpfunc_sign_switched
+}

@@ -536,6 +536,69 @@ bpm_law_enactment_non_marginal_votes = {
 
 }
 
+bpm_law_enactment_ig_yea_votes_denominator = {
+	value = 2
+
+	add = bpm_law_enactment_ig_yea_votes_denominator_first_term
+	add = bpm_law_enactment_ig_yea_votes_denominator_last_term
+}
+
+bpm_law_enactment_ig_yea_votes_denominator_last_term = {
+	value = 0.005 # ((-1/25)^2)/2
+
+	multiply = bpm_ig_law_support_total_value
+	multiply = bpm_ig_law_support_total_value
+}
+
+bpm_law_enactment_ig_yea_votes_denominator_first_term = { 
+	value = -0.1 # (-1/10)
+	
+	multiply = bpm_ig_law_support_total_value
+
+	if = {
+		limit = { bpm_ig_law_support_total_value > 0 }
+		multiply = -1
+	}
+}
+
+bpm_law_enactment_ig_yea_votes_fraction = {
+	value = 1
+
+	if = {
+		limit = { bpm_ig_law_support_total_value = 0}
+		divide = 2
+	}
+	else = {
+		divide = bpm_law_enactment_ig_yea_votes_denominator
+	}
+}
+
+bpm_law_enactment_ig_yea_votes = {
+	value = bpm_law_enactment_ig_yea_votes_fraction
+
+	if = {
+		limit = { bpm_ig_law_support_total_value > 0}
+		multiply = -1
+		add = 1
+	}
+}
+
+bpm_law_enactment_ig_nay_votes = {
+	value = 1
+	subtract = bpm_law_enactment_ig_yea_votes
+}
+
+bpm_law_enactment_ig_yea_votes_weighted = {
+	value = ig_clout
+	multiply = bpm_law_enactment_ig_yea_votes
+}
+
+bpm_law_enactment_ig_nay_votes_weighted = {
+	value = ig_clout
+	multiply = bpm_law_enactment_ig_nay_votes
+}
+
+
 bpm_law_enactment_yea_votes = {
 	value = 0
 	if = {
@@ -543,10 +606,9 @@ bpm_law_enactment_yea_votes = {
 		every_interest_group = {
 			limit = {
 				is_marginal = no
-				bpm_ig_law_support_total_value > 0
 			}
 			add = {
-				value = ig_clout
+				value = bpm_law_enactment_ig_yea_votes_weighted
 			}
 		}
 		divide = bpm_law_enactment_non_marginal_votes
@@ -554,20 +616,9 @@ bpm_law_enactment_yea_votes = {
 }
 
 bpm_law_enactment_nay_votes = {
-	value = 0
-	if = {
-		limit = { is_player = yes }
-		every_interest_group = {
-			limit = {
-				is_marginal = no
-				bpm_ig_law_support_total_value <= 0
-			}
-			add = {
-				value = ig_clout
-			}
-		}
-		divide = bpm_law_enactment_non_marginal_votes
-	}
+	value = bpm_law_enactment_yea_votes
+	multiply = -1
+	add = 1
 }
 
 bpm_law_vote_enactment_contribution_value = {
