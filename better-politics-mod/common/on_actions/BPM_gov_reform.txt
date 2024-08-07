@@ -1,0 +1,52 @@
+on_government_reformed = {
+    on_actions = {
+        bpm_clear_gov_reform
+    }
+}
+
+on_election_campaign_end = {
+    effect = {
+        bpm_can_gov_reform = yes
+    }
+}
+
+on_election_campaign_start = {
+    effect = {
+        bpm_can_gov_reform = yes
+    }
+}
+
+on_half_yearly_pulse_country = {
+    effect = {
+        if = {
+            limit = {
+                NOT = { country_has_voting_franchise = yes }
+            }
+            bpm_can_gov_reform = yes
+        }
+    }
+}
+
+on_party_created = {
+    effect = {
+        bpm_can_gov_reform = yes
+    }
+}
+
+on_party_disbanded = {
+    effect = {
+        bpm_can_gov_reform = yes
+    }
+}
+
+on_new_ruler = {
+    effect = {
+        bpm_can_gov_reform = yes
+    }
+}
+
+bpm_clear_gov_reform = {
+    effect = {
+        remove_variable = bpm_can_reform_government
+    }
+}

@@ -1,0 +1,10 @@
+bpm_can_country_reform_government = {
+	scope = interest_group
+	is_shown = {
+	}
+	is_valid = {
+        has_variable = bpm_can_reform_government
+	}
+	effect = {
+	}
+}

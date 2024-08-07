@@ -1,0 +1,3 @@
+bpm_can_gov_reform = {
+    set_variable = bpm_can_reform_government
+}

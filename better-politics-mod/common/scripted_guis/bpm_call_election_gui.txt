@@ -10,10 +10,10 @@
 	effect = {
 		set_variable = {
 			name = bpm_recently_called_election
-			months = 36
+			months = 18
 		}
 		call_election = {
-			months = 3
+			months = 6
 		}
 	}
 }

@@ -1,0 +1,2 @@
+﻿l_english:
+ REFORM_GOVERNMENT_ERROR:0 "@red_cross! [Country.GetName] cannot reform its government at this time"
